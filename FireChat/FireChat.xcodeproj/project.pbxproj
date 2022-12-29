@@ -9,21 +9,21 @@
 /* Begin PBXBuildFile section */
 		258A1B60295E3F5A00383058 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1B5F295E3F5A00383058 /* AppDelegate.swift */; };
 		258A1B62295E3F5A00383058 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1B61295E3F5A00383058 /* SceneDelegate.swift */; };
-		258A1B64295E3F5A00383058 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1B63295E3F5A00383058 /* ViewController.swift */; };
-		258A1B67295E3F5A00383058 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 258A1B65295E3F5A00383058 /* Main.storyboard */; };
+		258A1B64295E3F5A00383058 /* ConvosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1B63295E3F5A00383058 /* ConvosController.swift */; };
 		258A1B69295E3F5B00383058 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 258A1B68295E3F5B00383058 /* Assets.xcassets */; };
 		258A1B6C295E3F5B00383058 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 258A1B6A295E3F5B00383058 /* LaunchScreen.storyboard */; };
+		258A1B7A295E3FE800383058 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1B79295E3FE800383058 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		258A1B5C295E3F5A00383058 /* FireChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FireChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		258A1B5F295E3F5A00383058 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		258A1B61295E3F5A00383058 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		258A1B63295E3F5A00383058 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		258A1B66295E3F5A00383058 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		258A1B63295E3F5A00383058 /* ConvosController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvosController.swift; sourceTree = "<group>"; };
 		258A1B68295E3F5B00383058 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		258A1B6B295E3F5B00383058 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		258A1B6D295E3F5B00383058 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		258A1B79295E3FE800383058 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +56,63 @@
 		258A1B5E295E3F5A00383058 /* FireChat */ = {
 			isa = PBXGroup;
 			children = (
+				258A1B78295E3FE000383058 /* Model */,
+				258A1B77295E3FDC00383058 /* View */,
+				258A1B76295E3FD800383058 /* ViewModel */,
+				258A1B75295E3FD000383058 /* Controller */,
+				258A1B74295E3FCC00383058 /* API */,
+				258A1B73295E3FC900383058 /* Utils */,
 				258A1B5F295E3F5A00383058 /* AppDelegate.swift */,
 				258A1B61295E3F5A00383058 /* SceneDelegate.swift */,
-				258A1B63295E3F5A00383058 /* ViewController.swift */,
-				258A1B65295E3F5A00383058 /* Main.storyboard */,
 				258A1B68295E3F5B00383058 /* Assets.xcassets */,
 				258A1B6A295E3F5B00383058 /* LaunchScreen.storyboard */,
 				258A1B6D295E3F5B00383058 /* Info.plist */,
 			);
 			path = FireChat;
+			sourceTree = "<group>";
+		};
+		258A1B73295E3FC900383058 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				258A1B79295E3FE800383058 /* Extensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		258A1B74295E3FCC00383058 /* API */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		258A1B75295E3FD000383058 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				258A1B63295E3F5A00383058 /* ConvosController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		258A1B76295E3FD800383058 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		258A1B77295E3FDC00383058 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		258A1B78295E3FE000383058 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +175,6 @@
 			files = (
 				258A1B6C295E3F5B00383058 /* LaunchScreen.storyboard in Resources */,
 				258A1B69295E3F5B00383058 /* Assets.xcassets in Resources */,
-				258A1B67295E3F5A00383058 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +185,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				258A1B64295E3F5A00383058 /* ViewController.swift in Sources */,
+				258A1B64295E3F5A00383058 /* ConvosController.swift in Sources */,
 				258A1B60295E3F5A00383058 /* AppDelegate.swift in Sources */,
 				258A1B62295E3F5A00383058 /* SceneDelegate.swift in Sources */,
+				258A1B7A295E3FE800383058 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		258A1B65295E3F5A00383058 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				258A1B66295E3F5A00383058 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		258A1B6A295E3F5B00383058 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,7 +332,6 @@
 				INFOPLIST_FILE = FireChat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +359,6 @@
 				INFOPLIST_FILE = FireChat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
