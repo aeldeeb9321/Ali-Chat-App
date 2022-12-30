@@ -66,6 +66,7 @@ class ConversationsController: UIViewController {
 extension ConversationsController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tvReuseId, for: indexPath)
+        cell.textLabel?.text = "Test Cell"
         return cell
     }
     

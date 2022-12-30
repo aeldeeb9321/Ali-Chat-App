@@ -48,16 +48,42 @@ extension UIView{
     func fillSuperView(inView view: UIView){
         anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor)
     }
+    
+    func inputContainerView(withImageNamed image: String, textField: UITextField) -> UIView{
+        let view = UIView()
+        
+        let iv = UIImageView()
+        iv.image = UIImage(systemName: image)?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        iv.setDimensions(height: 20, width: 20)
+        iv.alpha = 0.87
+        
+        view.addSubview(iv)
+        iv.centerY(inView: view)
+        iv.anchor(leading: view.leadingAnchor, paddingLeading: 4)
+        
+        view.addSubview(textField)
+        textField.centerY(inView: view)
+        textField.anchor( leading: iv.trailingAnchor, trailing: view.trailingAnchor, paddingLeading: 8, paddingBottom: 8)
+        
+        let divider = UIView()
+        divider.backgroundColor = .white
+        divider.setDimensions(height: 0.85)
+
+        view.addSubview(divider)
+        divider.anchor(leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, paddingTop: 5)
+        
+        return view
+    }
 }
 
 extension UITextField{
     func makeTextField(placeholder: String, isSecureField: Bool) -> UITextField{
         let tf = UITextField()
-        tf.borderStyle = .bezel
-        tf.textColor = .black
-        tf.backgroundColor = .white
+        tf.borderStyle = .none
+        tf.textColor = .white
+        //tf.backgroundColor = .white
         tf.font = UIFont.systemFont(ofSize: 16)
-        tf.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.foregroundColor : UIColor.darkGray])
+        tf.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [.foregroundColor : UIColor.white])
         tf.isSecureTextEntry = isSecureField
         return tf
     }
