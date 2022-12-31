@@ -9,6 +9,7 @@ import UIKit
 
 class LoginController: UIViewController{
     //MARK: - Properties
+    private var viewModel = LoginViewModel()
     
     private let imageView: UIImageView = {
         let iv = UIImageView()
@@ -24,8 +25,10 @@ class LoginController: UIViewController{
         return view
     }()
     
-    private let emailTextField: UITextField = {
+    private lazy var emailTextField: UITextField = {
         let tf = UITextField().makeTextField(placeholder: "Email...", isSecureField: false)
+        //this is adding an observer to our textField that will get called every time the textChanges
+        tf.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         return tf
     }()
     
@@ -34,13 +37,16 @@ class LoginController: UIViewController{
         return view
     }()
     
-    private let passwordTextField: UITextField = {
+    private lazy var passwordTextField: UITextField = {
         let tf = UITextField().makeTextField(placeholder: "Password...", isSecureField: true)
+        tf.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         return tf
     }()
     
     private lazy var loginButton: UIButton = {
-        let button = UIButton().makeButton(withTitle: "Log In", titleColor: .white, buttonColor: .teal.withAlphaComponent(0.95), isRounded: true)
+        let backgroundColor = #colorLiteral(red: 0.7233098121, green: 0.8886688677, blue: 1, alpha: 1)
+        let button = UIButton().makeButton(withTitle: "Log In", titleColor: .white, buttonColor: backgroundColor, isRounded: true)
+        button.isEnabled = false
         button.addTarget(self, action: #selector(hanldeLoginButtonTapped), for: .touchUpInside)
         button.setDimensions(height: 45)
         return button
@@ -64,6 +70,18 @@ class LoginController: UIViewController{
     
     
     //MARK: - Helpers
+    private func checkFormStatus(emailText: String?, passwordText: String?){
+        viewModel.email = emailText
+        viewModel.password = passwordText
+        if viewModel.formIsValid{
+            loginButton.isEnabled = true
+            loginButton.backgroundColor = #colorLiteral(red: 0.07750981892, green: 0.6281491904, blue: 0.9765490846, alpha: 1)
+        }else{
+            loginButton.isEnabled = false
+            loginButton.backgroundColor = #colorLiteral(red: 0.7233098121, green: 0.8886688677, blue: 1, alpha: 1)
+        }
+    }
+    
     private func configureUI(){
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationController?.navigationBar.barStyle = .black
@@ -83,6 +101,8 @@ class LoginController: UIViewController{
         view.addSubview(dontHaveAccountButton)
         dontHaveAccountButton.centerX(inView: view)
         dontHaveAccountButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
+        
+        
     }
     
     private func configureGradientLayer(){
@@ -102,5 +122,11 @@ class LoginController: UIViewController{
         //push to registration controller
         let controller = RegistrationController()
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc private func textDidChange(sender: UITextField){
+        let emailText = emailTextField.text
+        let passwordText = passwordTextField.text
+        checkFormStatus(emailText: emailText, passwordText: passwordText)
     }
 }

@@ -123,7 +123,7 @@ extension UIButton{
         button.setTitle(title, for: .normal)
         button.setTitleColor(titleColor, for: .normal)
         button.setImage(image, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.backgroundColor = buttonColor
         
         if isRounded{

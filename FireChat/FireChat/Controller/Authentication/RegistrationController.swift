@@ -68,7 +68,8 @@ class RegistrationController: UIViewController{
     }()
     
     private lazy var signUpButton: UIButton = {
-        let button = UIButton().makeButton(withTitle: "Sign Up", titleColor: .white, buttonColor: .teal.withAlphaComponent(0.95), isRounded: true)
+        let backgroundColor = #colorLiteral(red: 0.07727494091, green: 0.6439497471, blue: 0.9560313821, alpha: 1)
+        let button = UIButton().makeButton(withTitle: "Sign Up", titleColor: .white, buttonColor: backgroundColor, isRounded: true)
         button.addTarget(self, action: #selector(hanldeLoginButtonTapped), for: .touchUpInside)
         button.setDimensions(height: 45)
         return button
@@ -125,7 +126,7 @@ class RegistrationController: UIViewController{
     //MARK: - Selectors
     @objc private func hanldeLoginButtonTapped(){
         print("User is logging in")
-    }
+    } 
     
     @objc private func handleAddPhotoButtonTapped(){
         //present UIImagePicker Controller
