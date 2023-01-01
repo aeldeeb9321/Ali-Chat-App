@@ -7,11 +7,14 @@
 
 import UIKit
 import AVKit
-
+import Firebase
+import FirebaseStorage
+import FirebaseFirestore
 
 class RegistrationController: UIViewController{
     //MARK: - Properties
     private var viewModel = RegistrationViewModel()
+    private var profileImage: UIImage?
     
     private lazy var imagePicker: UIImagePickerController = {
         let controller = UIImagePickerController()
@@ -148,7 +151,27 @@ class RegistrationController: UIViewController{
     
     //MARK: - Selectors
     @objc private func hanldeSignUpButtonTapped(){
-        print("User is signing up")
+        guard let email = emailTextField.text else{ return }
+        guard let password = passwordTextField.text else{ return }
+        guard let fullname = fullNameTextField.text else{ return }
+        guard let username = userNameTextField.text else{ return }
+        guard let profileImage = profileImage else{ return }
+        
+        //compressing the size of the image to allow downloading images to be much faster, so our app is more efficient. More compression is good when the images will be small, if it is something like an instagram post youd compress it to 0.75.
+        guard let imageData = profileImage.jpegData(compressionQuality: 0.3) else{ return }
+        //the uuid is important bc if you want to delete that image later or get that info youll need a uuid
+        let fileName = NSUUID().uuidString
+        let ref = Storage.storage().reference(withPath: "/profile_images/\(fileName)")
+        ref.putData(imageData) { meta, error in
+            if let error = error{
+                print("DEBUG: Failed to upload image with error \(error.localizedDescription)")
+                return
+            }
+            ref.downloadURL { url, error in
+                guard let profileImageUrl = url?.absoluteString else{ return }
+                //create our use now
+            }
+        }
     } 
     
     @objc private func handleAddPhotoButtonTapped(){
@@ -173,6 +196,7 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.editedImage] as? UIImage else{ return }
         addPhotoButton.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        self.profileImage = selectedImage
         addPhotoButton.layer.borderColor = UIColor.white.cgColor
         addPhotoButton.layer.borderWidth = 3
         dismiss(animated: true)
