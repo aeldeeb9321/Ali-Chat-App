@@ -8,8 +8,11 @@
 import UIKit
 import AVKit
 
+
 class RegistrationController: UIViewController{
     //MARK: - Properties
+    private var viewModel = RegistrationViewModel()
+    
     private lazy var imagePicker: UIImagePickerController = {
         let controller = UIImagePickerController()
         controller.delegate = self
@@ -32,8 +35,9 @@ class RegistrationController: UIViewController{
         return view
     }()
     
-    private let emailTextField: UITextField = {
+    private lazy var emailTextField: UITextField = {
         let tf = UITextField().makeTextField(placeholder: "Email...", isSecureField: false)
+        tf.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         return tf
     }()
     
@@ -42,8 +46,9 @@ class RegistrationController: UIViewController{
         return view
     }()
     
-    private let fullNameTextField: UITextField = {
+    private lazy var fullNameTextField: UITextField = {
         let tf = UITextField().makeTextField(placeholder: "Full Name...", isSecureField: false)
+        tf.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         return tf
     }()
     
@@ -52,8 +57,9 @@ class RegistrationController: UIViewController{
         return view
     }()
     
-    private let userNameTextField: UITextField = {
+    private lazy var userNameTextField: UITextField = {
         let tf = UITextField().makeTextField(placeholder: "Username...", isSecureField: false)
+        tf.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         return tf
     }()
     
@@ -62,15 +68,16 @@ class RegistrationController: UIViewController{
         return view
     }()
     
-    private let passwordTextField: UITextField = {
+    private lazy var passwordTextField: UITextField = {
         let tf = UITextField().makeTextField(placeholder: "Password...", isSecureField: true)
+        tf.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         return tf
     }()
     
     private lazy var signUpButton: UIButton = {
-        let backgroundColor = #colorLiteral(red: 0.07727494091, green: 0.6439497471, blue: 0.9560313821, alpha: 1)
+        let backgroundColor = #colorLiteral(red: 0.7233098121, green: 0.8886688677, blue: 1, alpha: 1)
         let button = UIButton().makeButton(withTitle: "Sign Up", titleColor: .white, buttonColor: backgroundColor, isRounded: true)
-        button.addTarget(self, action: #selector(hanldeLoginButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(hanldeSignUpButtonTapped), for: .touchUpInside)
         button.setDimensions(height: 45)
         return button
     }()
@@ -106,6 +113,7 @@ class RegistrationController: UIViewController{
         authStack.spacing = 16
         authStack.axis = .vertical
         authStack.distribution = .fillEqually
+        signUpButton.isEnabled = false
         
         view.addSubview(authStack)
         authStack.anchor(top: addPhotoButton.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, paddingTop: 62, paddingLeading: 32, paddingTrailing: 32)
@@ -123,9 +131,24 @@ class RegistrationController: UIViewController{
         gradient.frame = view.frame
     }
     
+    private func checkFormStatus(emailText: String?, passwordText: String?, fullnameText: String?, usernameText: String?){
+        viewModel.email = emailText
+        viewModel.password = passwordText
+        viewModel.fullname = fullnameText
+        viewModel.username = usernameText
+        
+        if viewModel.formIsValid{
+            signUpButton.backgroundColor = #colorLiteral(red: 0.07750981892, green: 0.6281491904, blue: 0.9765490846, alpha: 1)
+            signUpButton.isEnabled = true
+        }else{
+            signUpButton.isEnabled = false
+            signUpButton.backgroundColor = #colorLiteral(red: 0.7233098121, green: 0.8886688677, blue: 1, alpha: 1)
+        }
+    }
+    
     //MARK: - Selectors
-    @objc private func hanldeLoginButtonTapped(){
-        print("User is logging in")
+    @objc private func hanldeSignUpButtonTapped(){
+        print("User is signing up")
     } 
     
     @objc private func handleAddPhotoButtonTapped(){
@@ -136,6 +159,14 @@ class RegistrationController: UIViewController{
     @objc private func handleAlreadyHaveAccountTapped(){
         navigationController?.popViewController(animated: true)
     }
+    
+    @objc private func textDidChange(sender: UITextField){
+        let emailText = emailTextField.text
+        let passwordText = passwordTextField.text
+        let fullnameText = fullNameTextField.text
+        let usernameText = userNameTextField.text
+        checkFormStatus(emailText: emailText, passwordText: passwordText, fullnameText: fullnameText, usernameText: usernameText)
+    }
 }
 
 extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
@@ -143,7 +174,7 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
         guard let selectedImage = info[.editedImage] as? UIImage else{ return }
         addPhotoButton.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal)
         addPhotoButton.layer.borderColor = UIColor.white.cgColor
-        addPhotoButton.layer.borderWidth = 2
+        addPhotoButton.layer.borderWidth = 3
         dismiss(animated: true)
     }
 }
