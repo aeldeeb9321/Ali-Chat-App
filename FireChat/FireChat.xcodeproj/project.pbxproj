@@ -23,6 +23,7 @@
 		258A1C0E296106EC00383058 /* FirebaseInAppMessagingSwift-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 258A1C0D296106EC00383058 /* FirebaseInAppMessagingSwift-Beta */; };
 		258A1C10296106EC00383058 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 258A1C0F296106EC00383058 /* FirebaseStorage */; };
 		258A1C13296107CC00383058 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 258A1C12296107CC00383058 /* JGProgressHUD */; };
+		258A1C7329624C3200383058 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1C7229624C3200383058 /* AuthService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		258A1B80295E6AB700383058 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		258A1C042960F56A00383058 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		258A1C062961060600383058 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		258A1C7229624C3200383058 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 		258A1B74295E3FCC00383058 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				258A1C7229624C3200383058 /* AuthService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				258A1B64295E3F5A00383058 /* ConvosController.swift in Sources */,
 				258A1B60295E3F5A00383058 /* AppDelegate.swift in Sources */,
 				258A1B62295E3F5A00383058 /* SceneDelegate.swift in Sources */,
+				258A1C7329624C3200383058 /* AuthService.swift in Sources */,
 				258A1B7A295E3FE800383058 /* Extensions.swift in Sources */,
 				258A1B7F295E471800383058 /* RegistrationController.swift in Sources */,
 				258A1C052960F56A00383058 /* RegistrationViewModel.swift in Sources */,

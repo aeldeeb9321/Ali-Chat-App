@@ -112,14 +112,10 @@ class LoginController: UIViewController{
     @objc private func hanldeLoginButtonTapped(){
         guard let email = emailTextField.text else{ return }
         guard let password = passwordTextField.text else{ return }
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
-            guard error == nil else{
-                print("DEBUG: Failed to login user with given username and password.")
-                return
+        AuthService.shared.logUserIn(withEmail: email, withPassword: password) { result, error in
+            if result != nil{
+                self.dismiss(animated: true)
             }
-            
-            print("DEBUG: User login successful")
-            self.dismiss(animated: true)
         }
     }
     

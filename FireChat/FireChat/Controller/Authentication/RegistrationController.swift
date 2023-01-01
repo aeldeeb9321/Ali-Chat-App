@@ -157,50 +157,10 @@ class RegistrationController: UIViewController{
         guard let fullname = fullNameTextField.text else{ return }
         guard let username = userNameTextField.text?.lowercased() else{ return }
         guard let profileImage = profileImage else{ return }
-        
-        //compressing the size of the image to allow downloading images to be much faster, so our app is more efficient. More compression is good when the images will be small, if it is something like an instagram post youd compress it to 0.75.
-        guard let imageData = profileImage.jpegData(compressionQuality: 0.3) else{ return }
-        //the uuid is important bc if you want to delete that image later or get that info youll need a uuid
-        let fileName = NSUUID().uuidString
-        //this will create a folder called profile_images
-        let ref = Storage.storage().reference(withPath: "/profile_images/\(fileName)")
-        //uploading to server
-        ref.putData(imageData) { meta, error in
-            if let error = error{
-                print("DEBUG: Failed to upload image with error \(error.localizedDescription)")
-                return
-            }
-            ref.downloadURL { url, error in
-                guard let profileImageUrl = url?.absoluteString else{ return }
-                
-                //create our user now
-                Auth.auth().createUser(withEmail: email, password: password) { result, error in
-                    guard error == nil else{
-                        print("DEBUG: Failed to create user with error \(error!.localizedDescription)")
-                        return
-                    }
-                    
-                    guard let uid = result?.user.uid else{ return }
-                    //creating a data dictionary with all our stored user values above
-                    let data = ["email": email,
-                                "fullname": fullname,
-                                "profileImageUrl": profileImageUrl,
-                                "uid": uid,
-                                "username": username] as [String: Any]
-                    //Accessing our database and creating a user collection in firestore
-                    Firestore.firestore().collection("users").document(uid).setData(data) { error in
-                        if let error = error{
-                            print("DEBUG: Failed to upload user data with error: \(error.localizedDescription)")
-                            return
-                        }
-                        
-                        //when the process completes thats where the completion block comes in
-                        print("Debug: Did create user...")
-                        self.dismiss(animated: true)
-                    }
-                    
-                }
-            }
+        let credentials = RegistrationCredentials(email: email, password: password, fullname: fullname, username: username, profileImage: profileImage)
+        AuthService.shared.createUser(withCredentials: credentials) { error in
+            guard error == nil else{ fatalError(error!.localizedDescription) }
+            self.dismiss(animated: true)
         }
     } 
     
