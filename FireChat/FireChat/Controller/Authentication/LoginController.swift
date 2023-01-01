@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 protocol AuthenticationControllerProtocol{
     func checkFormStatus(emailText: String?, passwordText: String?, fullnameText: String?, usernameText: String?)
@@ -109,7 +110,17 @@ class LoginController: UIViewController{
     
     //MARK: - Selectors
     @objc private func hanldeLoginButtonTapped(){
-        print("User is logging in")
+        guard let email = emailTextField.text else{ return }
+        guard let password = passwordTextField.text else{ return }
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            guard error == nil else{
+                print("DEBUG: Failed to login user with given username and password.")
+                return
+            }
+            
+            print("DEBUG: User login successful")
+            self.dismiss(animated: true)
+        }
     }
     
     @objc private func handleDontHaveAccountTapped(){

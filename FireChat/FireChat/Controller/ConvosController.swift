@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 private let tvReuseId = "tvId"
 
@@ -27,6 +28,7 @@ class ConversationsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        authenticateUser()
     }
 
     
@@ -39,10 +41,19 @@ class ConversationsController: UIViewController {
         tableView.fillSuperView(inView: view)
     }
     
+    private func presentLoginScreen(){
+        DispatchQueue.main.async {
+            let controller = LoginController()
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
+        }
+    }
     private func configureNavBar(){
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Messages"
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleUserProfileTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.shield.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleLogoutButtonTapped))
         navigationController?.navigationBar.barStyle = .black
         
         //This is how you can get the entire navBar filled with a background color
@@ -60,6 +71,28 @@ class ConversationsController: UIViewController {
         print("Navigate to user profile")
     }
 
+    @objc private func handleLogoutButtonTapped(){
+        logout()
+    }
+    
+    //MARK: - API
+    private func authenticateUser(){
+        if Auth.auth().currentUser?.uid == nil{
+            print("DEBUG: User is not logged in. Present login screen here")
+            presentLoginScreen()
+        }else{
+            print("DEBUG: User is logged in. ConfigureController")
+        }
+    }
+    
+    private func logout(){
+        do{
+            try Auth.auth().signOut()
+            presentLoginScreen()
+        }catch let error{
+            print(error)
+        }
+    }
 }
 
 //MARK: - UITableViewDataSource
