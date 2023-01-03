@@ -10,6 +10,7 @@ import AVKit
 import Firebase
 import FirebaseStorage
 import FirebaseFirestore
+import JGProgressHUD
 
 class RegistrationController: UIViewController{
     //MARK: - Properties
@@ -100,6 +101,7 @@ class RegistrationController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureNotificationObservers()
     }
     
     
@@ -150,6 +152,13 @@ class RegistrationController: UIViewController{
         }
     }
     
+    private func configureNotificationObservers(){
+        //Adding an observer saying this keyboard is about to show up... do something
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        //Adding an observer saying this keyboard is about to dismiss.. do something
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     //MARK: - Selectors
     @objc private func hanldeSignUpButtonTapped(){
         guard let email = emailTextField.text else{ return }
@@ -157,9 +166,17 @@ class RegistrationController: UIViewController{
         guard let fullname = fullNameTextField.text else{ return }
         guard let username = userNameTextField.text?.lowercased() else{ return }
         guard let profileImage = profileImage else{ return }
+        
+        //displaying a progress view
+        self.showLoader(true, withText: "Signing Up")
+        
         let credentials = RegistrationCredentials(email: email, password: password, fullname: fullname, username: username, profileImage: profileImage)
         AuthService.shared.createUser(withCredentials: credentials) { error in
-            guard error == nil else{ fatalError(error!.localizedDescription) }
+            guard error == nil else{
+                self.showLoader(false)
+                return
+            }
+            self.showLoader(false)
             self.dismiss(animated: true)
         }
     } 
@@ -180,6 +197,19 @@ class RegistrationController: UIViewController{
         let usernameText = userNameTextField.text
         checkFormStatus(emailText: emailText, passwordText: passwordText, fullnameText: fullnameText, usernameText: usernameText)
     }
+    
+    @objc private func keyboardWillShow(){
+        if view.frame.origin.y == 0{
+            view.frame.origin.y -= 100
+        }
+    }
+    
+    @objc private func keyboardWillHide(){
+        if view.frame.origin.y != 0{
+            view.frame.origin.y = 0
+        }
+    }
+    
 }
 
 extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{

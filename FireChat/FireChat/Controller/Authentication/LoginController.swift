@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import JGProgressHUD
 
 protocol AuthenticationControllerProtocol{
     func checkFormStatus(emailText: String?, passwordText: String?, fullnameText: String?, usernameText: String?)
@@ -112,9 +113,17 @@ class LoginController: UIViewController{
     @objc private func hanldeLoginButtonTapped(){
         guard let email = emailTextField.text else{ return }
         guard let password = passwordTextField.text else{ return }
+        
+        //displaying a progress view
+        showLoader(true, withText: "Loggin in")
+        
         AuthService.shared.logUserIn(withEmail: email, withPassword: password) { result, error in
+            //we are dismissing the hud in both case a successful log in and a error
             if result != nil{
+                self.showLoader(false)
                 self.dismiss(animated: true)
+            }else{
+                self.showLoader(false)
             }
         }
     }

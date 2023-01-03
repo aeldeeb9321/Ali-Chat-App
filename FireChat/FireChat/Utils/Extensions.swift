@@ -6,6 +6,39 @@
 //
 
 import UIKit
+import JGProgressHUD
+
+extension UIViewController{
+    static let hud = JGProgressHUD(automaticStyle: ())
+    func showLoader(_ show: Bool, withText text: String? = "Loading"){
+        //if the user is typing something it will dismiss that keyboard and show the loader for them
+        view.endEditing(true)
+        //The hud is not dismissing since everytime we call this function it creates a new instance of a JGProgessHUD, what needs to be done is to create a static constant hud outside the method
+        // let hud = JGProgressHUD(style: .dark)
+        UIViewController.hud.textLabel.text = text
+        
+        if show{
+            UIViewController.hud.show(in: view)
+        }else{
+            UIViewController.hud.dismiss(animated: true)
+        }
+    }
+    
+    func configureNavBar(withTitle title: String, prefersLargeTitles: Bool){
+        navigationController?.navigationBar.prefersLargeTitles = prefersLargeTitles
+        navigationItem.title = title
+        navigationController?.navigationBar.barStyle = .black
+        
+        //This is how you can get the entire navBar filled with a background color
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .systemPurple
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+    }
+}
 
 extension UIView{
     func anchor(top: NSLayoutYAxisAnchor? = nil, leading: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, trailing: NSLayoutXAxisAnchor? = nil, paddingTop: CGFloat = 0, paddingLeading: CGFloat = 0, paddingBottom: CGFloat = 0, paddingTrailing: CGFloat = 0){

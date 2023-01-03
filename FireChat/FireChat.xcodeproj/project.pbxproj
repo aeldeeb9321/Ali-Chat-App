@@ -24,6 +24,8 @@
 		258A1C10296106EC00383058 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 258A1C0F296106EC00383058 /* FirebaseStorage */; };
 		258A1C13296107CC00383058 /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 258A1C12296107CC00383058 /* JGProgressHUD */; };
 		258A1C7329624C3200383058 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1C7229624C3200383058 /* AuthService.swift */; };
+		25F1B8DA2963A6130081A89C /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F1B8D92963A6130081A89C /* NewMessageController.swift */; };
+		25F1B8DC2963ACDC0081A89C /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F1B8DB2963ACDC0081A89C /* UserCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		258A1C042960F56A00383058 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		258A1C062961060600383058 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		258A1C7229624C3200383058 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		25F1B8D92963A6130081A89C /* NewMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
+		25F1B8DB2963ACDC0081A89C /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +119,7 @@
 			children = (
 				258A1B7B295E46FA00383058 /* Authentication */,
 				258A1B63295E3F5A00383058 /* ConvosController.swift */,
+				25F1B8D92963A6130081A89C /* NewMessageController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -131,6 +136,7 @@
 		258A1B77295E3FDC00383058 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				25F1B8DB2963ACDC0081A89C /* UserCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -239,8 +245,10 @@
 				258A1C7329624C3200383058 /* AuthService.swift in Sources */,
 				258A1B7A295E3FE800383058 /* Extensions.swift in Sources */,
 				258A1B7F295E471800383058 /* RegistrationController.swift in Sources */,
+				25F1B8DA2963A6130081A89C /* NewMessageController.swift in Sources */,
 				258A1C052960F56A00383058 /* RegistrationViewModel.swift in Sources */,
 				258A1B7D295E470900383058 /* LoginController.swift in Sources */,
+				25F1B8DC2963ACDC0081A89C /* UserCell.swift in Sources */,
 				258A1B81295E6AB700383058 /* LoginViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

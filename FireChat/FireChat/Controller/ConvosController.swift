@@ -22,7 +22,13 @@ class ConversationsController: UIViewController {
         return tv
     }()
     
-
+    private lazy var newMessageButton: UIButton = {
+        let button = UIButton().makeButton(withImage: UIImage(systemName: "plus")?.withTintColor(.white, renderingMode: .alwaysOriginal), titleColor: .white, buttonColor: .systemPurple, isRounded: false)
+        button.addTarget(self, action: #selector(showNewMessageController), for: .touchUpInside)
+        button.layer.cornerRadius = 25
+        button.setDimensions(height: 50, width: 50)
+        return button
+    }()
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -35,10 +41,16 @@ class ConversationsController: UIViewController {
     //MARK: - Helpers
     private func configureUI(){
         view.backgroundColor = .white
-        configureNavBar()
+        configureNavBar(withTitle: "Messages", prefersLargeTitles: true)
         
         view.addSubview(tableView)
         tableView.fillSuperView(inView: view)
+        
+        view.addSubview(newMessageButton)
+        newMessageButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, paddingBottom: 12, paddingTrailing: 14)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleUserProfileTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.fill.xmark")?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleLogoutButtonTapped))
     }
     
     private func presentLoginScreen(){
@@ -49,22 +61,6 @@ class ConversationsController: UIViewController {
             self.present(nav, animated: true)
         }
     }
-    private func configureNavBar(){
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Messages"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleUserProfileTapped))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.shield.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleLogoutButtonTapped))
-        navigationController?.navigationBar.barStyle = .black
-        
-        //This is how you can get the entire navBar filled with a background color
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .systemPurple
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.compactAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-    }
     
     //MARK: - Selectors
     @objc private func handleUserProfileTapped(){
@@ -73,6 +69,14 @@ class ConversationsController: UIViewController {
 
     @objc private func handleLogoutButtonTapped(){
         logout()
+    }
+    
+    @objc private func showNewMessageController(){
+        // present messages controller
+        let controller = NewMessageController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
     
     //MARK: - API
