@@ -9,6 +9,21 @@ import UIKit
 
 class UserCell: UITableViewCell{
     //MARK: - Properties
+    var user: User?{
+        didSet{
+            guard let user = user else{ return }
+            self.usernameLabel.text = user.username
+            self.fullnameLabel.text = user.fullname
+            
+            Service.fetchImageData(user: user) { data, error in
+                if let data = data{
+                    DispatchQueue.main.async {
+                        self.cellImageView.image = UIImage(data: data)
+                    }
+                }
+            }
+        }
+    }
     private let cellImageView: UIImageView = {
         let iv = UIImageView()
         iv.clipsToBounds = true

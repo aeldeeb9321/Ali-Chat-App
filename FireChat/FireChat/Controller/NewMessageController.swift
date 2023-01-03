@@ -11,6 +11,12 @@ private let messageId = "messageId"
 
 class NewMessageController: UITableViewController{
     //MARK: - Properties
+    private var users = [User](){
+        didSet{
+            self.tableView.reloadData()
+        }
+    }
+    
     private lazy var searchBar : UISearchBar = {
         let bar = UISearchBar()
         bar.delegate = self
@@ -24,6 +30,7 @@ class NewMessageController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchUsers()
     }
     
     
@@ -37,6 +44,12 @@ class NewMessageController: UITableViewController{
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.split.diagonal.2x2")?.withTintColor(.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(handleDismissal))
     }
     
+    //MARK: - API
+    private func fetchUsers(){
+        Service.fetchUsers { users in
+            self.users = users
+        }
+    }
     
     //MARK: - Selectors
     @objc private func handleDismissal(){
@@ -48,15 +61,18 @@ class NewMessageController: UITableViewController{
 extension NewMessageController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: messageId, for: indexPath) as! UserCell
+        cell.user = users[indexPath.row]
         return cell
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return users.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let selectedUser = users[indexPath.row]
+        navigationController?.pushViewController(ChatController(user: selectedUser), animated: true)
     }
 }
 
