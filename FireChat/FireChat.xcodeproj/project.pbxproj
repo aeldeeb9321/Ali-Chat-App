@@ -26,6 +26,8 @@
 		258A1C7329624C3200383058 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1C7229624C3200383058 /* AuthService.swift */; };
 		25F1B8DA2963A6130081A89C /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F1B8D92963A6130081A89C /* NewMessageController.swift */; };
 		25F1B8DC2963ACDC0081A89C /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F1B8DB2963ACDC0081A89C /* UserCell.swift */; };
+		25F1B8DE2963B0430081A89C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F1B8DD2963B0430081A89C /* User.swift */; };
+		25F1B8E02963B0A20081A89C /* Service .swift in Sources */ = {isa = PBXBuildFile; fileRef = 25F1B8DF2963B0A20081A89C /* Service .swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,8 @@
 		258A1C7229624C3200383058 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		25F1B8D92963A6130081A89C /* NewMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
 		25F1B8DB2963ACDC0081A89C /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		25F1B8DD2963B0430081A89C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		25F1B8DF2963B0A20081A89C /* Service .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Service .swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				258A1C7229624C3200383058 /* AuthService.swift */,
+				25F1B8DF2963B0A20081A89C /* Service .swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -144,6 +149,7 @@
 		258A1B78295E3FE000383058 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				25F1B8DD2963B0430081A89C /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -247,8 +253,10 @@
 				258A1B7F295E471800383058 /* RegistrationController.swift in Sources */,
 				25F1B8DA2963A6130081A89C /* NewMessageController.swift in Sources */,
 				258A1C052960F56A00383058 /* RegistrationViewModel.swift in Sources */,
+				25F1B8DE2963B0430081A89C /* User.swift in Sources */,
 				258A1B7D295E470900383058 /* LoginController.swift in Sources */,
 				25F1B8DC2963ACDC0081A89C /* UserCell.swift in Sources */,
+				25F1B8E02963B0A20081A89C /* Service .swift in Sources */,
 				258A1B81295E6AB700383058 /* LoginViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
