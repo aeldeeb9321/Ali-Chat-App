@@ -9,8 +9,14 @@ import UIKit
 
 private let messageId = "messageId"
 
+protocol NewMessageControllerDelegate: AnyObject{
+    func setupChatWithUser(_ controller: NewMessageController, setupChatWithUser user: User)
+}
+
 class NewMessageController: UITableViewController{
     //MARK: - Properties
+    weak var delegate: NewMessageControllerDelegate?
+    
     private var users = [User](){
         didSet{
             self.tableView.reloadData()
@@ -72,7 +78,8 @@ extension NewMessageController{
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedUser = users[indexPath.row]
-        navigationController?.pushViewController(ChatController(user: selectedUser), animated: true)
+        delegate?.setupChatWithUser(self, setupChatWithUser: selectedUser)
+        
     }
 }
 

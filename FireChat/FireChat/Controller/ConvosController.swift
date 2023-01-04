@@ -37,12 +37,13 @@ class ConversationsController: UIViewController {
         authenticateUser()
     }
 
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavBar(withTitle: "Messages", prefersLargeTitles: true)
+    }
     //MARK: - Helpers
     private func configureUI(){
         view.backgroundColor = .white
-        configureNavBar(withTitle: "Messages", prefersLargeTitles: true)
-        
         view.addSubview(tableView)
         tableView.fillSuperView(inView: view)
         
@@ -74,6 +75,7 @@ class ConversationsController: UIViewController {
     @objc private func showNewMessageController(){
         // present messages controller
         let controller = NewMessageController()
+        controller.delegate = self
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true)
@@ -118,3 +120,12 @@ extension ConversationsController: UITableViewDelegate{
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+
+//MARK: - NewMessageControllerDelegate
+extension ConversationsController: NewMessageControllerDelegate{
+    func setupChatWithUser(_ controller: NewMessageController, setupChatWithUser user: User) {
+        controller.dismiss(animated: true)
+        navigationController?.pushViewController(ChatController(user: user), animated: true)
+    }
+}
+ 
