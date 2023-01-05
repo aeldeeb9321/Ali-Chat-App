@@ -12,6 +12,9 @@ private let cvReuseId = "cvId"
 class ChatController: UICollectionViewController{
     //MARK: - Properties
     private var user: User
+    
+    private var messages = [Message]()
+    
     private lazy var chatInputView: CustomInputAccessoryView = {
         let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 100))
         return iv

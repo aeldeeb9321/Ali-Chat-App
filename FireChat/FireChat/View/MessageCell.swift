@@ -9,6 +9,12 @@ import UIKit
 
 class MessageCell: UICollectionViewCell{
     //MARK: - Properties
+    var message: Message?{
+        didSet{
+            guard let message = message else{ return }
+            self.textView.text = message.text
+        }
+    }
     var user: User?{
         didSet{
             guard let user = user else{ return }
@@ -25,9 +31,9 @@ class MessageCell: UICollectionViewCell{
         let iv = UIImageView()
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFill
-        iv.setDimensions(height: 36, width: 36)
+        iv.setDimensions(height: 33, width: 33)
         iv.backgroundColor = .white
-        iv.layer.cornerRadius = 36 / 2
+        iv.layer.cornerRadius = 33 / 2
         return iv
     }()
     
@@ -37,7 +43,18 @@ class MessageCell: UICollectionViewCell{
         tv.font = .systemFont(ofSize: 16)
         tv.isScrollEnabled = false
         tv.isEditable = false
+        tv.text = "Some test message for now..."
         return tv
+    }()
+    
+    private lazy var bubbleContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemPurple
+        view.layer.cornerRadius = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(textView)
+        textView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, paddingTop: 2, paddingLeading: 5, paddingBottom: 2, paddingTrailing: 5)
+        return view
     }()
     
     //MARK: - Init
@@ -52,11 +69,12 @@ class MessageCell: UICollectionViewCell{
     
     //MARK: - Helpers
     private func configureCellComponents(){
-        let messageStack = UIStackView(arrangedSubviews: [profileImageView, textView])
-        messageStack.distribution = .fillProportionally
-        messageStack.spacing = 8
-        addSubview(messageStack)
-        messageStack.fillSuperView(inView: self)
+        addSubview(profileImageView)
+        profileImageView.anchor(leading: safeAreaLayoutGuide.leadingAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, paddingLeading: 8, paddingBottom: -4)
+        
+        addSubview(bubbleContainerView)
+        bubbleContainerView.anchor(top: safeAreaLayoutGuide.topAnchor, leading: profileImageView.trailingAnchor, paddingTop: 12, paddingLeading: 12)
+        bubbleContainerView.widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
     }
      
 }
