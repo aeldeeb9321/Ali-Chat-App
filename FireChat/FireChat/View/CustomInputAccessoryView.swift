@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol CustomInputAccessoryViewDelegate: AnyObject{
+    func inputView(_ inputView: CustomInputAccessoryView, wantsToSend message: String)
+}
+
 class CustomInputAccessoryView: UIView{
-    
     //MARK: - Properties
+    weak var delegate: CustomInputAccessoryViewDelegate?
+    
     private let messageInputTextView: UITextView = {
         let tv = UITextView()
         tv.font = UIFont.systemFont(ofSize: 16)
@@ -57,18 +62,21 @@ class CustomInputAccessoryView: UIView{
         sendButton.centerY(inView: self)
         sendButton.anchor(trailing: safeAreaLayoutGuide.trailingAnchor, paddingTrailing: 8)
         addSubview(messageInputTextView)
-        messageInputTextView.anchor(top: safeAreaLayoutGuide.topAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, trailing: sendButton.leadingAnchor, paddingTop: 12, paddingLeading: 4, paddingBottom: 8, paddingTrailing: 8)
+        messageInputTextView.anchor(top: safeAreaLayoutGuide.topAnchor, leading: safeAreaLayoutGuide.leadingAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, trailing: sendButton.leadingAnchor, paddingTop: 28, paddingLeading: 4, paddingBottom: 8, paddingTrailing: 2)
         
         addSubview(placeHolderLabel)
+        placeHolderLabel.centerY(inView: self)
         placeHolderLabel.anchor(leading: messageInputTextView.leadingAnchor, trailing: messageInputTextView.trailingAnchor, paddingLeading: 2, paddingTrailing: 2)
-        placeHolderLabel.centerY(inView: placeHolderLabel)
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextInputChange), name: UITextView.textDidChangeNotification, object: nil)
     }
     
     //MARK: - selectors
     @objc private func handleSendMessage(){
-        print("send message")
+        guard let text = messageInputTextView.text else{ return }
+        delegate?.inputView(self, wantsToSend: text)
+        messageInputTextView.text = nil
     }
     
     @objc private func handleTextInputChange(){

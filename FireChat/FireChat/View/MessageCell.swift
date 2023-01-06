@@ -12,7 +12,13 @@ class MessageCell: UICollectionViewCell{
     var message: Message?{
         didSet{
             guard let message = message else{ return }
-            self.textView.text = message.text
+            let vm = MessageViewModel(message: message)
+            bubbleContainerView.backgroundColor = vm.messagebackgroundColor
+            textView.textColor = vm.messageTextColor
+            textView.text = message.text
+            bubbleLeftAnchor.isActive = vm.leftAnchorActive
+            bubbleRightAnchor.isActive = vm.rightAnchorActive
+            profileImageView.isHidden = vm.shouldHideProfileImage
         }
     }
     var user: User?{
@@ -43,7 +49,6 @@ class MessageCell: UICollectionViewCell{
         tv.font = .systemFont(ofSize: 16)
         tv.isScrollEnabled = false
         tv.isEditable = false
-        tv.text = "Some test message for now..."
         return tv
     }()
     
@@ -56,6 +61,9 @@ class MessageCell: UICollectionViewCell{
         textView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, paddingTop: 2, paddingLeading: 5, paddingBottom: 2, paddingTrailing: 5)
         return view
     }()
+    
+    var bubbleLeftAnchor: NSLayoutConstraint!
+    var bubbleRightAnchor: NSLayoutConstraint!
     
     //MARK: - Init
     override init(frame: CGRect) {
@@ -70,10 +78,15 @@ class MessageCell: UICollectionViewCell{
     //MARK: - Helpers
     private func configureCellComponents(){
         addSubview(profileImageView)
-        profileImageView.anchor(leading: safeAreaLayoutGuide.leadingAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, paddingLeading: 8, paddingBottom: -4)
+        profileImageView.anchor(leading: safeAreaLayoutGuide.leadingAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, paddingLeading: 8, paddingBottom: 0)
         
         addSubview(bubbleContainerView)
-        bubbleContainerView.anchor(top: safeAreaLayoutGuide.topAnchor, leading: profileImageView.trailingAnchor, paddingTop: 12, paddingLeading: 12)
+        bubbleContainerView.anchor(top: safeAreaLayoutGuide.topAnchor, paddingTop: 2, paddingLeading: 12)
+        bubbleLeftAnchor = bubbleContainerView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 12)
+        bubbleLeftAnchor.isActive = false
+        
+        bubbleRightAnchor = bubbleContainerView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -12)
+        bubbleRightAnchor.isActive = false
         bubbleContainerView.widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
     }
      
