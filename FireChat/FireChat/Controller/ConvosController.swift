@@ -12,11 +12,13 @@ private let tvReuseId = "tvId"
 
 class ConversationsController: UIViewController {
     //MARK: - Properties
+    private var conversations = [Conversation]()
+    
     private lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.delegate = self
         tv.dataSource = self
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: tvReuseId)
+        tv.register(ConverstationCell.self, forCellReuseIdentifier: tvReuseId)
         tv.backgroundColor = .white
         tv.rowHeight = 80
         return tv
@@ -35,6 +37,7 @@ class ConversationsController: UIViewController {
         super.viewDidLoad()
         configureUI()
         authenticateUser()
+        fetchConverstations()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -84,7 +87,10 @@ class ConversationsController: UIViewController {
     //MARK: - API
     
     private func fetchConverstations(){
-        
+        Service.fetchConverstations { converstations in
+            self.conversations = converstations
+            self.tableView.reloadData()
+        }
     }
     
     private func authenticateUser(){
@@ -109,13 +115,13 @@ class ConversationsController: UIViewController {
 //MARK: - UITableViewDataSource
 extension ConversationsController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: tvReuseId, for: indexPath)
-        cell.textLabel?.text = "Test Cell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: tvReuseId, for: indexPath) as! ConverstationCell
+        cell.textLabel?.text = conversations[indexPath.row].message.text
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return conversations.count
     }
 }
 
