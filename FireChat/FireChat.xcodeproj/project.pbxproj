@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2510D95A296B7EEA00FD9575 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2510D959296B7EEA00FD9575 /* Conversation.swift */; };
 		258A1B60295E3F5A00383058 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1B5F295E3F5A00383058 /* AppDelegate.swift */; };
 		258A1B62295E3F5A00383058 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1B61295E3F5A00383058 /* SceneDelegate.swift */; };
 		258A1B64295E3F5A00383058 /* ConvosController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258A1B63295E3F5A00383058 /* ConvosController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2510D959296B7EEA00FD9575 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		258A1B5C295E3F5A00383058 /* FireChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FireChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		258A1B5F295E3F5A00383058 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		258A1B61295E3F5A00383058 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			children = (
 				25F1B8DD2963B0430081A89C /* User.swift */,
 				25B1FBEA29679822006CF963 /* Message.swift */,
+				2510D959296B7EEA00FD9575 /* Conversation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				258A1B62295E3F5A00383058 /* SceneDelegate.swift in Sources */,
 				258A1C7329624C3200383058 /* AuthService.swift in Sources */,
 				258A1B7A295E3FE800383058 /* Extensions.swift in Sources */,
+				2510D95A296B7EEA00FD9575 /* Conversation.swift in Sources */,
 				25F1B90F2964FF9E0081A89C /* CustomInputAccessoryView.swift in Sources */,
 				258A1B7F295E471800383058 /* RegistrationController.swift in Sources */,
 				25F1B8DA2963A6130081A89C /* NewMessageController.swift in Sources */,

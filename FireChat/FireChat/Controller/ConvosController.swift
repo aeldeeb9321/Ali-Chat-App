@@ -82,6 +82,11 @@ class ConversationsController: UIViewController {
     }
     
     //MARK: - API
+    
+    private func fetchConverstations(){
+        
+    }
+    
     private func authenticateUser(){
         if Auth.auth().currentUser?.uid == nil{
             print("DEBUG: User is not logged in. Present login screen here")

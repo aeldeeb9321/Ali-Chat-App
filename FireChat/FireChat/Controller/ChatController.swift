@@ -51,6 +51,8 @@ class ChatController: UICollectionViewController{
         Service.fetchMessages(forUser: user) { messages in
             self.messages = messages
             self.collectionView.reloadData()
+            //scrolls down to the bottom of our collectionView when we send a message
+            self.collectionView.scrollToItem(at: [0, self.messages.count - 1], at: .bottom, animated: true)
         }
     }
     
@@ -62,6 +64,8 @@ class ChatController: UICollectionViewController{
         navigationController?.navigationBar.prefersLargeTitles = false
         //A Boolean value that determines whether bouncing always occurs when vertical scrolling reaches the end of the content.
         collectionView.alwaysBounceVertical = true
+        //dismisses the keyboard when you scroll down on the screen
+        collectionView.keyboardDismissMode = .interactive
     }
     
     
@@ -94,7 +98,19 @@ extension ChatController: UICollectionViewDelegateFlowLayout{
         return UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 50)
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        //so we created an estimatedSizeCell and populated it with a message
+        let estimatedSizeCell = MessageCell(frame: frame)
+        estimatedSizeCell.message = messages[indexPath.row]
+        //If the height is less than or equal to 50 it wont need to lay anyting out, but if its greater than that in the case of a long message then it will call the .layoutIfNeeded method
+        estimatedSizeCell.layoutIfNeeded()
+        
+        //We created a target size and gave an arbitrarily large height in the case of a huge text
+        let targetSize = CGSize(width: view.frame.width, height: 1000)
+        //This helps us figure out how tall the cell should be based on the estimatedSizeCell that we populated with a message. Since we have the textView filling out the frame of the cell it intrinsically figures out the height of the cell.
+        let estimatedSize = estimatedSizeCell.systemLayoutSizeFitting(targetSize)
+        
+        return .init(width: view.frame.width, height: estimatedSize.height)
     }
 }
 

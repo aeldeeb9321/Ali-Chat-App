@@ -22,7 +22,7 @@ struct Service{
     static func fetchUsers(completion: @escaping([User]) ->()){
         var users = [User]()
         //reaching out to our api and getting info back
-        Firestore.firestore().collection("users").getDocuments { snapshot, error in
+        COLLECTION_USERS.getDocuments { snapshot, error in
             //print(snapshot?.documents) //This print out an array of 5 document snapshots, one for each user
             //doing a loop through each object and printing out some data
             snapshot?.documents.forEach({ document in
@@ -73,6 +73,36 @@ struct Service{
         }.resume()
     }
     
+    static func fetchUser(withUid uid: String, completion: @escaping(User) -> ()){
+        COLLECTION_USERS.document(uid).getDocument { snapshot, error in
+            guard let dictionary = snapshot?.data() else{ return}
+            
+            let user = User(dictionary: dictionary)
+            completion(user)
+        }
+    }
+    
+    static func fetchConverstations(completion: @escaping([Conversation]) -> ()){
+        var converstations = [Conversation]()
+        guard let uid = Auth.auth().currentUser?.uid else{ return }
+        let query = COLLECTION_MESSAGES.document(uid).collection("recent-messages").order(by: "timestamp")
+        
+        //we are doing the snapshot listener because everytime a message gets sent we want the messages page to automatically update
+        query.addSnapshotListener { snapshot, error in
+            snapshot?.documentChanges.forEach({ change in
+                let dictionary = change.document.data()
+                let message = Message(dictionary: dictionary)
+                
+                self.fetchUser(withUid: message.toId) { user in
+                    let converstation = Conversation(user: user, message: message)
+                    converstations.append(converstation)
+                    completion(converstations)
+                }
+                
+            })
+        }
+    }
+    
     static func fetchMessages(forUser user: User, completion: @escaping([Message]) -> Void) {
         var messages = [Message]()
         guard let currentUid = Auth.auth().currentUser?.uid else{ return }
@@ -102,9 +132,14 @@ struct Service{
         
         let data = ["text": message, "fromId": currentUid, "toId": user.uid, "timstamp": Timestamp(date: Date())] as [String: Any]
         
+        //.setData will overWrite information, if that data already exists it will overwrite the field that dont match
         COLLECTION_MESSAGES.document(currentUid).collection(user.uid).addDocument(data: data) { _ in
             //this is for the user we are talking to since this needs to be done for both the current user and the user we are messaging
             COLLECTION_MESSAGES.document(user.uid).collection(currentUid).addDocument(data: data, completion: completion)
+            
+            //populating two seperate structures since we want the recent messages to be modified for both users in the convo
+            COLLECTION_MESSAGES.document(currentUid).collection("recent-messages").document(user.uid).setData(data)
+            COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(data)
         }
     }
 }

@@ -82,7 +82,7 @@ class MessageCell: UICollectionViewCell{
         profileImageView.anchor(leading: safeAreaLayoutGuide.leadingAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, paddingLeading: 8, paddingBottom: 0)
         
         addSubview(bubbleContainerView)
-        bubbleContainerView.anchor(top: safeAreaLayoutGuide.topAnchor, paddingTop: 2, paddingLeading: 12)
+        bubbleContainerView.anchor(top: safeAreaLayoutGuide.topAnchor, bottom: safeAreaLayoutGuide.bottomAnchor,paddingTop: 2, paddingLeading: 12)
         bubbleLeftAnchor = bubbleContainerView.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 12)
         bubbleLeftAnchor.isActive = false
         
