@@ -72,4 +72,39 @@ struct Service{
             }
         }.resume()
     }
+    
+    static func fetchMessages(forUser user: User, completion: @escaping([Message]) -> Void) {
+        var messages = [Message]()
+        guard let currentUid = Auth.auth().currentUser?.uid else{ return }
+        
+        //this will allow us to fetch all of the most recent messages since we are ordering it by timestamp
+        let query = COLLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timestamp")
+        
+        //We add a snapshot listener because we want to know everytime a message gets added to the database structure
+        //Essentially its going to say hey something got added to this database structure, I want you to fetch that data and get back to me.
+        query.addSnapshotListener { (snapshot, error) in
+            //Here we look at all the document changes
+            snapshot?.documentChanges.forEach({ change in
+                //if the change type is added which means we added someting to that database structure
+                if change.type == .added{
+                    //this is how we get the document data which is of type [String: Any]
+                    let dictionary = change.document.data()
+                    //then we append that message to our message array and pass it in the completion
+                    messages.append(Message(dictionary: dictionary))
+                    completion(messages)
+                }
+            })
+        }
+    }
+    
+    static func uploadMessage(_ message: String, toUser user: User, completion: ((Error?) -> Void)?){
+        guard let currentUid = Auth.auth().currentUser?.uid else{ return }
+        
+        let data = ["text": message, "fromId": currentUid, "toId": user.uid, "timstamp": Timestamp(date: Date())] as [String: Any]
+        
+        COLLECTION_MESSAGES.document(currentUid).collection(user.uid).addDocument(data: data) { _ in
+            //this is for the user we are talking to since this needs to be done for both the current user and the user we are messaging
+            COLLECTION_MESSAGES.document(user.uid).collection(currentUid).addDocument(data: data, completion: completion)
+        }
+    }
 }

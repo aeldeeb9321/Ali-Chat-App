@@ -21,6 +21,7 @@ class MessageCell: UICollectionViewCell{
             profileImageView.isHidden = vm.shouldHideProfileImage
         }
     }
+    
     var user: User?{
         didSet{
             guard let user = user else{ return }

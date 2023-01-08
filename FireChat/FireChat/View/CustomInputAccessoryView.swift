@@ -72,11 +72,16 @@ class CustomInputAccessoryView: UIView{
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextInputChange), name: UITextView.textDidChangeNotification, object: nil)
     }
     
+    private func clearMessageText(){
+        messageInputTextView.text = nil
+        placeHolderLabel.isHidden = false
+    }
+    
     //MARK: - selectors
     @objc private func handleSendMessage(){
         guard let text = messageInputTextView.text else{ return }
         delegate?.inputView(self, wantsToSend: text)
-        messageInputTextView.text = nil
+        clearMessageText()
     }
     
     @objc private func handleTextInputChange(){

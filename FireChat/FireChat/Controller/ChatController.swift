@@ -13,7 +13,7 @@ class ChatController: UICollectionViewController{
     //MARK: - Properties
     private var user: User
     private var fromCurrentUser = false
-    private var messages = [Message(text: "Hellooo, reply!", isFromCurrentUser: false)]
+    private var messages = [Message]()
     
     private lazy var chatInputView: CustomInputAccessoryView = {
         let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 100))
@@ -37,11 +37,21 @@ class ChatController: UICollectionViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchMessages()
     }
     
     //helps us set the input accessory view of our vc
     override var inputAccessoryView: UIView?{
         get{ return chatInputView }
+    }
+    
+    //MARK: - API
+    
+    private func fetchMessages(){
+        Service.fetchMessages(forUser: user) { messages in
+            self.messages = messages
+            self.collectionView.reloadData()
+        }
     }
     
     //MARK: - Helpers
@@ -91,8 +101,11 @@ extension ChatController: UICollectionViewDelegateFlowLayout{
 //MARK: - CustomInputAccessoryViewDelegate
 extension ChatController: CustomInputAccessoryViewDelegate{
     func inputView(_ inputView: CustomInputAccessoryView, wantsToSend message: String) {
-        fromCurrentUser.toggle()
-        messages.append(Message(text: message, isFromCurrentUser: fromCurrentUser))
-        self.collectionView.reloadData()
+        Service.uploadMessage(message, toUser: user) { error in
+            if let error = error{
+                print("DEBUG: Failed to upload message with error \(error.localizedDescription)")
+                return
+            }
+        }
     }
 }
